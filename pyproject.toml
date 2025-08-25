@@ -1,11 +1,14 @@
 [project]
 name = "synctailscaledns"
 version = "0.1.0"
-description = "Add your description here"
+description = "add tailscale nodes address sync public dns"
 requires-python = ">=3.12"
 dependencies = [
     "alibabacloud-alidns20150109>=3.5.10",
+    "cloudflare>=4.3.1",
+    "coredumpy>=0.4.3",
     "loguru>=0.7.3",
     "portalocker>=3.2.0",
     "pyyaml>=6.0.2",
+    "rich>=14.1.0",
 ]

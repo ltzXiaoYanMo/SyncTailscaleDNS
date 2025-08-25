@@ -1,9 +1,8 @@
 import subprocess
 import json
 import re
-import logging
+from loguru import logger
 
-logger = logging.getLogger(__name__)
 
 # 编译一次正则表达式，提升性能
 DNS_NAME_PATTERN = re.compile(r"\.kudu-major\.ts\.net\.?$")
@@ -66,7 +65,7 @@ def _build_result_data(data):
         device_info = _extract_device_info(self_info)
         result["devices"].append(device_info)
 
-    # 添加对等设备信息
+    # 添加设备信息
     peer_info = data.get("Peer", {})
     if isinstance(peer_info, dict):
         for peer_data in peer_info.values():
