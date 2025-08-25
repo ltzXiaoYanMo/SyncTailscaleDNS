@@ -2,3 +2,4 @@
 .venv/
 temp/
 config.yaml
+dump/
