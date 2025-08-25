@@ -51,14 +51,6 @@ class BaseDns:
         """
         添加DNS记录
         该方法应该由子类实现，用于向DNS服务商添加新的DNS记录。
-
-        Args:
-            hostname: str, 主机名（如：example.com）
-            ip: str, IP地址（如：192.168.1.1）
-            species: str, 记录类型（如：A、AAAA）
-
-        Raises:
-            NotImplementedError: 如果子类没有实现此方法
         """
         raise NotImplementedError
 

@@ -1,36 +1,39 @@
+import pathlib
+import coredumpy
 import yaml
 import sys
-import modules
 from loguru import logger
-from modules.addRecordAliDNS import Sample
-from modules.listNodes import list_node
+from utils import list_node, AliDns, CloudflareDns, BaseDns
+from typing import Type
 
+coredumpy.patch_except(directory='./dumps')
+
+cls_map: dict[str, Type[BaseDns]] = {
+    'alidns': AliDns,
+    'cloudflare': CloudflareDns,
+}
 
 def main():
-    try:
-        # 读取配置文件
-        with open("config.yaml", "r", encoding="utf-8") as f:
-            config_data = yaml.safe_load(f)
-
-        # 获取设备列表
-        devices_data = list_node(config_data)
-
-        # 添加DNS记录
-        Sample.main(config_data, devices_data)
-
-    except FileNotFoundError:
-        modules.safe_file_write(
-            "config.yaml",
+    config = pathlib.Path("config.yaml")
+    if not config.exists():
+        config.write_text(
             """dns_provider: alidns # dns_provider e.g. alidns
-access_key_id: # if you use alidns, you need to set this value
-access_key_secret: # if you use alidns, you need to set this value
-domain_name:""",
+zone_id:
+domain_name:
+access_key_id:
+access_key_secret:
+cloudflare_api_token:
+""",
         )
         logger.error("错误：找不到配置文件 config.yaml，已自动生成文件")
         sys.exit(1)
-    except Exception as e:
-        logger.error(f"执行过程中出错：{str(e)}")
-        sys.exit(1)
+    config_data = yaml.safe_load(config.read_text())
+    devices_data = list_node()
+    provider = config_data['dns_provider']
+    if provider not in cls_map:
+        logger.error(f"尚不支持对 {provider} 的支持")
+        sys.exit(0)
+    cls_map[provider](config_data, devices_data).execute()
 
 
 if __name__ == "__main__":

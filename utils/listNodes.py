@@ -16,32 +16,22 @@ def _extract_device_info(device_data):
     tailscale_ips = device_data.get("TailscaleIPs", [])
     ipv4_addresses = [ip for ip in tailscale_ips if ":" not in ip]
     ipv6_addresses = [ip for ip in tailscale_ips if ":" in ip]
-
-    return {
-        "hostname": hostname,
-        "ipv4_addresses": ipv4_addresses or ["N/A"],
-        "ipv6_addresses": ipv6_addresses or ["N/A"],
-    }
+    return [
+        (hostname, x, 'A') for x in ipv4_addresses
+    ] + [
+        (hostname, x, 'AAAA') for x in ipv6_addresses
+    ]
 
 
 def _execute_tailscale_command():
     """执行 tailscale status 命令并返回结果"""
-    try:
-        command = subprocess.run(
-            ["tailscale", "status", "--json"],
-            capture_output=True,
-            encoding="utf-8",
-            check=True,
-        )
-        return command
-    except subprocess.CalledProcessError as err:
-        logger.error("Command execution failed: %s", err)
-        if err.stderr:
-            logger.error("Error output: %s", err.stderr)
-        return None
-    except Exception as err:
-        logger.error("Unexpected error: %s", err)
-        return None
+    command = subprocess.run(
+        ["tailscale", "status", "--json"],
+        capture_output=True,
+        encoding="utf-8",
+        check=True,
+    )
+    return command
 
 
 def _parse_tailscale_data(stdout):
@@ -57,29 +47,27 @@ def _parse_tailscale_data(stdout):
 
 def _build_result_data(data):
     """根据解析的数据构建结果数据结构"""
-    result = {"devices": [], "total": 0}
+    result = []
 
     # 添加本机信息
     self_info = data.get("Self", {})
     if self_info:
         device_info = _extract_device_info(self_info)
-        result["devices"].append(device_info)
+        result.extend(device_info)
 
     # 添加设备信息
     peer_info = data.get("Peer", {})
     if isinstance(peer_info, dict):
         for peer_data in peer_info.values():
             device_info = _extract_device_info(peer_data)
-            result["devices"].append(device_info)
+            result.extend(device_info)
     else:
         logger.warning("Peer data is not a dictionary: %s", type(peer_info))
 
-    # 添加设备总数
-    result["total"] = len(result["devices"])
     return result
 
 
-def list_node(config_data=None):
+def list_node():
     # 执行命令
     command = _execute_tailscale_command()
     if command is None:

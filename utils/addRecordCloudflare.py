@@ -2,6 +2,7 @@
 Docs: https://developers.cloudflare.com/api/python/resources/dns/subresources/records/methods/batch/
 API：https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/batch
 """
+import rich
 from loguru import logger
 from utils.base import BaseDns
 from cloudflare import Cloudflare
@@ -17,6 +18,7 @@ class CloudflareDns(BaseDns):
     def get_dns_list(self):
         response = self.client.dns.records.list(
             zone_id=self.config['zone_id'],
+            per_page=114514  # maximum: 5000000
         )
         result = []
         for i in response.result:
@@ -39,18 +41,20 @@ class CloudflareDns(BaseDns):
         record = self.client.dns.records.create(
             zone_id=self.config['zone_id'],
             name=f"{hostname}.{self.config['domain_name']}",
+            content=ip,
             ttl=1,
             type=species
         )
         logger.info(
-            f"成功添加{species}记录: {hostname} -> {ip} (记录ID: {record.body.record_id})"
+            f"成功添加{species}记录: {hostname} -> {ip} (记录ID: {record.id})"
         )
 
     def remove_record(self, hostname, ip):
+        logger.debug(f'{hostname = }, {ip = }')
         record = self.client.dns.records.delete(
             dns_record_id=self.id_map[hostname, ip],
             zone_id=self.config['zone_id'],
         )
         logger.info(
-            f"成功删除解析记录: {hostname} -> {ip} (记录ID: {record.body.record_id})"
+            f"成功删除解析记录: {hostname} -> {ip} (记录ID: {record.id})"
         )
