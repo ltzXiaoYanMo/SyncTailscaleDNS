@@ -22,8 +22,6 @@ class BaseDns:
     def create_client(self):
         """
         创建DNS客户端实例
-
-        该方法应该由子类实现，用于初始化具体的DNS API客户端。
         """
         raise NotImplementedError
 
@@ -35,7 +33,12 @@ class BaseDns:
         """
         raise NotImplementedError
 
-    def calc_diff(self, records: list):
+    def calc_diff(self, records: list[tuple[str, str, Literal["A", "AAAA"]]]):
+        """
+        对比原先节点
+        :param records: DNS 记录，格式应为 (hostname, content, type)
+        :return:
+        """
         not_exist = [
             x for x in self.device if x not in records
         ]
@@ -47,7 +50,6 @@ class BaseDns:
     def add_record(self, hostname: str, ip: str, species: Literal["A", "AAAA"]):
         """
         添加DNS记录
-
         该方法应该由子类实现，用于向DNS服务商添加新的DNS记录。
 
         Args:
