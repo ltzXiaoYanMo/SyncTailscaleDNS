@@ -1,0 +1,11 @@
+[project]
+name = "synctailscaledns"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "alibabacloud-alidns20150109>=3.5.10",
+    "loguru>=0.7.3",
+    "portalocker>=3.2.0",
+    "pyyaml>=6.0.2",
+]
