@@ -27,15 +27,6 @@ class CloudflareDns(BaseDns):
             self.id_map[(i.name[:-len(self.config['domain_name']) - 1], i.content)] = i.id
         return result
 
-    def calc_diff(self, records: list):
-        not_exist = [
-            x for x in self.device if x not in records
-        ]
-        be_deleted = [
-            x for x in records if x not in self.device
-        ]
-        return not_exist, be_deleted
-
     def add_record(self, hostname, ip, species):
         # 这边吧我也不知道为什么类型检查器会报错，但又确实能跑
         # noinspection PyTypeChecker
