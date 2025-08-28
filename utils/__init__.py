@@ -1,4 +1,4 @@
-from utils.listNodes import list_node
+from utils.nodes import list_node
 from utils.addRecordAliDNS import AliDns
 from utils.addRecordCloudflare import CloudflareDns
 from utils.base import BaseDns
