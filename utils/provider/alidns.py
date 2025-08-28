@@ -11,8 +11,7 @@ from utils.base import BaseDns
 
 class AliDns(BaseDns):
     """
-    阿里云DNS操作示例类
-    用于创建DNS记录，支持A记录(IPv4)和AAAA记录(IPv6)
+    阿里云 DNS
     """
     def create_client(self):
         if (
@@ -26,7 +25,7 @@ class AliDns(BaseDns):
             access_key_secret=self.config["access_key_secret"],
         )
         config.endpoint = "alidns.cn-hangzhou.aliyuncs.com"  # 默认为杭州
-        self.client =  Alidns20150109Client(config)
+        self.client = Alidns20150109Client(config)
 
     def get_dns_list(self):
         req = alidns_20150109_models.DescribeDomainRecordsRequest()

@@ -2,14 +2,24 @@
 Docs: https://developers.cloudflare.com/api/python/resources/dns/subresources/records/methods/batch/
 API：https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/batch
 """
-import rich
+import sys
+
 from loguru import logger
 from utils.base import BaseDns
 from cloudflare import Cloudflare
 
 
 class CloudflareDns(BaseDns):
+    """
+    Cloudflare DNS
+    """
     def create_client(self):
+        if (
+                "cloudflare_api_token" not in self.config
+                or "zone_id" not in self.config
+        ):
+            logger.error("错误：配置文件缺少必要的访问凭据")
+            sys.exit(1)
         self.client = Cloudflare(
             api_token=self.config['cloudflare_api_token'],
         )
@@ -28,18 +38,11 @@ class CloudflareDns(BaseDns):
             self.id_map[(i.name[:-len(self.config['domain_name']) - 1], i.content)] = i.id
         return result
 
-    def calc_diff(self, records: list):
-        not_exist = [
-            x for x in self.device if x not in records
-        ]
-        be_deleted = [
-            x for x in records if x not in self.device
-        ]
-        return not_exist, be_deleted
-
     def add_record(self, hostname, ip, species):
+        # 这边吧我也不知道为什么类型检查器会报错，但又确实能跑
+        # noinspection PyTypeChecker
         record = self.client.dns.records.create(
-            zone_id=self.config['zone_id'],
+            zone_id=str(self.config['zone_id']),
             name=f"{hostname}.{self.config['domain_name']}",
             content=ip,
             ttl=1,
