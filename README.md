@@ -53,3 +53,5 @@ cloudflare_api_token: <Cloudflare Token>
 4. **更新主程序**：在 `main.py` 中修改 `cls_map`，在 `from utils import list_node, BaseDns, ...` 后导入你的新类并添加到这个 dict 中。
 
 有关新类的实现，请参考 `./utils/base.py` 和现有的 DNS 服务商实现。
+
+另外请注意，本项目使用 `loguru` 进行日志记录，请在相关类中使用 `logger` 进行**适当的**日志输出，可参考现有实现。
