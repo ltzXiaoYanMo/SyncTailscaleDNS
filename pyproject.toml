@@ -13,3 +13,7 @@ dependencies = [
     "tencentcloud-sdk-python-common>=3.0.1451",
     "tencentcloud-sdk-python-dnspod>=3.0.1443",
 ]
+
+[[tool.uv.index]]
+url = "https://mirrors.cernet.edu.cn/pypi/web/simple"
+default = true
