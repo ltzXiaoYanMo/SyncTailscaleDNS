@@ -10,4 +10,6 @@ dependencies = [
     "coredumpy>=0.4.3",
     "loguru>=0.7.3",
     "pyyaml>=6.0.2",
+    "tencentcloud-sdk-python-common>=3.0.1451",
+    "tencentcloud-sdk-python-dnspod>=3.0.1443",
 ]

@@ -3,7 +3,7 @@ import coredumpy
 import yaml
 import sys
 from loguru import logger
-from utils import list_node, AliDns, CloudflareDns, BaseDns
+from utils import list_node, BaseDns, AliDns, CloudflareDns, TencentCloudDns
 from typing import Type
 
 coredumpy.patch_except(directory='./dumps')
@@ -11,6 +11,7 @@ coredumpy.patch_except(directory='./dumps')
 cls_map: dict[str, Type[BaseDns]] = {
     'alidns': AliDns,
     'cloudflare': CloudflareDns,
+    'dnspod': TencentCloudDns
 }
 
 def main():

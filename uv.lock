@@ -836,6 +836,8 @@ dependencies = [
     { name = "coredumpy" },
     { name = "loguru" },
     { name = "pyyaml" },
+    { name = "tencentcloud-sdk-python-common" },
+    { name = "tencentcloud-sdk-python-dnspod" },
 ]
 
 [package.metadata]
@@ -846,6 +848,32 @@ requires-dist = [
     { name = "coredumpy", specifier = ">=0.4.3" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "tencentcloud-sdk-python-common", specifier = ">=3.0.1451" },
+    { name = "tencentcloud-sdk-python-dnspod", specifier = ">=3.0.1443" },
+]
+
+[[package]]
+name = "tencentcloud-sdk-python-common"
+version = "3.0.1451"
+source = { registry = "https://pypi.mirrors.ustc.edu.cn/simple/" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/f6/b8/60504e3bf9002d91a19f9bfa9753134cab68719e95e0748aecb401ed0d18/tencentcloud-sdk-python-common-3.0.1451.tar.gz", hash = "sha256:2a813c08c9f1917f0f6678e305852a8ccd747f15ed76facbadc9031d5e2dc51b", size = 17375, upload-time = "2025-08-27T20:51:23.849Z" }
+wheels = [
+    { url = "https://mirrors.ustc.edu.cn/pypi/packages/0b/7e/0d09e25c0588ee7026f27b63efe2a76de2e7e82b864ceac6298de998dfa5/tencentcloud_sdk_python_common-3.0.1451-py2.py3-none-any.whl", hash = "sha256:c3a0c702ccefecd709c1bef819344b4dab090d123dc5a2860db4bdd684f63b5c", size = 24951, upload-time = "2025-08-27T20:51:20.624Z" },
+]
+
+[[package]]
+name = "tencentcloud-sdk-python-dnspod"
+version = "3.0.1443"
+source = { registry = "https://pypi.mirrors.ustc.edu.cn/simple/" }
+dependencies = [
+    { name = "tencentcloud-sdk-python-common" },
+]
+sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/68/14/9a1ef3b82b9454c6b750b60ece0e323af0b96e7718d6018974e8238fd94e/tencentcloud-sdk-python-dnspod-3.0.1443.tar.gz", hash = "sha256:098bdf78c0e5ed17f030a50c923cbdc4d105b4bd7df4b686dfdb11ecc6426fc7", size = 68860, upload-time = "2025-08-12T20:51:29.207Z" }
+wheels = [
+    { url = "https://mirrors.ustc.edu.cn/pypi/packages/cc/0a/c31cb063f3257a2fe16f53d489f553be0ed9c3bea87e3864db5a92f2d759/tencentcloud_sdk_python_dnspod-3.0.1443-py2.py3-none-any.whl", hash = "sha256:cab59e405d1efeafc4a961bf268c8484c7f8166dd41d444790b779eea65abe34", size = 71497, upload-time = "2025-08-12T20:51:25.917Z" },
 ]
 
 [[package]]
