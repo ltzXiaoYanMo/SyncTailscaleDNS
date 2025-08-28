@@ -2,6 +2,8 @@
 Docs: https://developers.cloudflare.com/api/python/resources/dns/subresources/records/methods/batch/
 API：https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/batch
 """
+import sys
+
 from loguru import logger
 from utils.base import BaseDns
 from cloudflare import Cloudflare
@@ -9,6 +11,12 @@ from cloudflare import Cloudflare
 
 class CloudflareDns(BaseDns):
     def create_client(self):
+        if (
+                "cloudflare_api_token" not in self.config
+                or "zone_id" not in self.config
+        ):
+            logger.error("错误：配置文件缺少必要的访问凭据")
+            sys.exit(1)
         self.client = Cloudflare(
             api_token=self.config['cloudflare_api_token'],
         )
