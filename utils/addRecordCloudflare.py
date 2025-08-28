@@ -2,7 +2,6 @@
 Docs: https://developers.cloudflare.com/api/python/resources/dns/subresources/records/methods/batch/
 API：https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/batch
 """
-import rich
 from loguru import logger
 from utils.base import BaseDns
 from cloudflare import Cloudflare
@@ -38,8 +37,10 @@ class CloudflareDns(BaseDns):
         return not_exist, be_deleted
 
     def add_record(self, hostname, ip, species):
+        # 这边吧我也不知道为什么类型检查器会报错，但又确实能跑
+        # noinspection PyTypeChecker
         record = self.client.dns.records.create(
-            zone_id=self.config['zone_id'],
+            zone_id=str(self.config['zone_id']),
             name=f"{hostname}.{self.config['domain_name']}",
             content=ip,
             ttl=1,
