@@ -10,6 +10,9 @@ from cloudflare import Cloudflare
 
 
 class CloudflareDns(BaseDns):
+    """
+    Cloudflare DNS
+    """
     def create_client(self):
         if (
                 "cloudflare_api_token" not in self.config

@@ -11,8 +11,7 @@ from utils.base import BaseDns
 
 class AliDns(BaseDns):
     """
-    阿里云DNS操作示例类
-    用于创建DNS记录，支持A记录(IPv4)和AAAA记录(IPv6)
+    阿里云 DNS
     """
     def create_client(self):
         if (
