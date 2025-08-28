@@ -2,7 +2,7 @@
 [![State-of-the-art Shitcode](http://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode) <-- 本项目是一个纯正的 shitcode
 
 ## 项目简介
-SyncTailscaleDNS 用于自动将 Tailscale 网络中的节点 IP（A/AAAA 记录）同步到公网 DNS（如阿里云 DNS、Cloudflare DNS）。适合需要将 Tailscale 内网主机自动暴露到公网 DNS 的场景。
+SyncTailscaleDNS 用于自动将 Tailscale 网络中的节点 IP（A/AAAA 记录）同步到公网 DNS（如 DNSPod、阿里云 DNS、Cloudflare）。解决 Tailscale 的 MagicDNS 老是爆炸的问题。
 
 ## 主要功能
 - 获取 Tailscale 网络节点的 DNS 名称和 IP（支持 IPv4/IPv6）
@@ -35,11 +35,21 @@ uv run python main.py
 
 ## 配置说明（config.yaml 示例）
 ```yaml
-dns_provider: alidns # 可选： alidns / cloudflare
+dns_provider: alidns # 可选： alidns / cloudflare / dnspod
 zone_id: <你的DNS区域ID>  # 若你使用 Cloudflare，否则留空
 domain_name: <你的主域名>  # 若你使用阿里云，亦可使用子域名如 internal.example.com
 # 你用哪个填哪个
-access_key_id: <阿里云AK> 
-access_key_secret: <阿里云SK>
+access_key_id: <阿里AK / DNSPod SecretId> 
+access_key_secret: <阿里云SK / DNSPod SecretKey>
 cloudflare_api_token: <Cloudflare Token>
 ```
+
+## 开发规范指南
+如果你想为项目做贡献，如添加新的 DNS 服务商支持，请遵循以下步骤：
+
+1. **创建子类**：在 `./utils/provider` 目录下创建一个新的 Python 文件（如 `mydns.py`），并定义一个继承自 `BaseDns` 的类。
+2. **实现方法**：实现 `BaseDns` 中的抽象方法，如 `create_client`、`get_dns_list`、`add_record` 和 `remove_record`。
+3. **更新其他程序**：在 `./utils/__init__.py` 中使用 `from ... import ...` 导入你的新类。
+4. **更新主程序**：在 `main.py` 中修改 `cls_map`，在 `from utils import list_node, BaseDns, ...` 后导入你的新类并添加到这个 dict 中。
+
+有关新类的实现，请参考 `./utils/base.py` 和现有的 DNS 服务商实现。
