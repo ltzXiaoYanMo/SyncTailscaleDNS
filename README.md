@@ -1,6 +1,8 @@
 # SyncTailscaleDNS
 [![State-of-the-art Shitcode](http://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode) <-- 本项目是一个纯正的 shitcode
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=daizihan233_SyncTailscaleDNS)](https://sonarcloud.io/summary/new_code?id=daizihan233_SyncTailscaleDNS)
+
 ## 项目简介
 SyncTailscaleDNS 用于自动将 Tailscale 网络中的节点 IP（A/AAAA 记录）同步到公网 DNS（如 DNSPod、阿里云 DNS、Cloudflare）。解决 Tailscale 的 MagicDNS 老是爆炸的问题。
 
