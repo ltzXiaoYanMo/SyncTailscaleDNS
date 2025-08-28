@@ -26,7 +26,7 @@ class AliDns(BaseDns):
             access_key_secret=self.config["access_key_secret"],
         )
         config.endpoint = "alidns.cn-hangzhou.aliyuncs.com"  # 默认为杭州
-        self.client =  Alidns20150109Client(config)
+        self.client = Alidns20150109Client(config)
 
     def get_dns_list(self):
         req = alidns_20150109_models.DescribeDomainRecordsRequest()
